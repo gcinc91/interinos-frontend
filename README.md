@@ -26,7 +26,7 @@ App en `http://localhost:5173`.
 
 ## Backend
 
-[interinos-backend](https://github.com/REPLACE_ME/interinos-backend) — FastAPI + PostGIS.
+[interinos-backend](https://github.com/gcinc91/interinos-backend) — FastAPI + PostGIS.
 
 ## Licencia
 
