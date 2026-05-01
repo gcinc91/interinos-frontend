@@ -1,5 +1,6 @@
 import { MapView } from "@/components/Map"
 import { Sidebar } from "@/components/Sidebar"
+import { UpdateToast } from "@/components/UpdateToast"
 import { VacancyDetail } from "@/components/VacancyDetail"
 import { useUrlState } from "@/hooks/useUrlState"
 import { useVacanciesVersion } from "@/hooks/useVacanciesVersion"
@@ -40,6 +41,7 @@ function App() {
         </main>
       </div>
       <VacancyDetail />
+      <UpdateToast />
     </div>
   )
 }
