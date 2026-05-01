@@ -1,8 +1,11 @@
 import { MapView } from "@/components/Map"
 import { Sidebar } from "@/components/Sidebar"
+import { VacancyDetail } from "@/components/VacancyDetail"
+import { useUrlState } from "@/hooks/useUrlState"
 import { useVacanciesVersion } from "@/hooks/useVacanciesVersion"
 
 function App() {
+  useUrlState()
   const versionQuery = useVacanciesVersion()
   const status: "loading" | "ok" | "error" = versionQuery.isError
     ? "error"
@@ -36,6 +39,7 @@ function App() {
           <MapView />
         </main>
       </div>
+      <VacancyDetail />
     </div>
   )
 }

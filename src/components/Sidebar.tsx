@@ -1,4 +1,5 @@
 import { AddressInput } from "@/components/AddressInput"
+import { Filters } from "@/components/Filters"
 import { RadiusSlider } from "@/components/RadiusSlider"
 import { VacancyList } from "@/components/VacancyList"
 import { useVacancies } from "@/hooks/useVacancies"
@@ -11,6 +12,9 @@ export function Sidebar() {
       <div className="space-y-4 border-b border-zinc-200 p-4 dark:border-zinc-800">
         <AddressInput />
         <RadiusSlider />
+      </div>
+      <div className="border-b border-zinc-200 p-4 dark:border-zinc-800">
+        <Filters />
       </div>
       <div className="flex items-center justify-between border-b border-zinc-200 px-4 py-2 text-xs text-zinc-500 dark:border-zinc-800">
         <span>
