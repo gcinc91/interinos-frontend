@@ -17,6 +17,8 @@ export interface Filters {
   participaciones: string[]
 }
 
+export type ThemePreference = "system" | "light" | "dark"
+
 export interface UIState {
   origin: Origin | null
   radiusKm: number
@@ -24,6 +26,8 @@ export interface UIState {
   hoveredId: number | null
   selectedId: number | null
   mapBounds: { minLon: number; minLat: number; maxLon: number; maxLat: number } | null
+  theme: ThemePreference
+  sidebarOpen: boolean
 
   setOrigin: (origin: Origin | null) => void
   setRadiusKm: (radius: number) => void
@@ -32,6 +36,8 @@ export interface UIState {
   setHoveredId: (id: number | null) => void
   setSelectedId: (id: number | null) => void
   setMapBounds: (bounds: UIState["mapBounds"]) => void
+  setTheme: (theme: ThemePreference) => void
+  setSidebarOpen: (open: boolean) => void
 }
 
 const EMPTY_FILTERS: Filters = {
@@ -51,6 +57,8 @@ export const useUIStore = create<UIState>()(
       hoveredId: null,
       selectedId: null,
       mapBounds: null,
+      theme: "system",
+      sidebarOpen: false,
       setOrigin: (origin) => set({ origin }),
       setRadiusKm: (radius) => set({ radiusKm: radius }),
       setFilter: (key, values) =>
@@ -59,6 +67,8 @@ export const useUIStore = create<UIState>()(
       setHoveredId: (id) => set({ hoveredId: id }),
       setSelectedId: (id) => set({ selectedId: id }),
       setMapBounds: (bounds) => set({ mapBounds: bounds }),
+      setTheme: (theme) => set({ theme }),
+      setSidebarOpen: (open) => set({ sidebarOpen: open }),
     }),
     {
       name: "interinos-ui",
@@ -66,6 +76,7 @@ export const useUIStore = create<UIState>()(
         origin: state.origin,
         radiusKm: state.radiusKm,
         filters: state.filters,
+        theme: state.theme,
       }),
     }
   )
