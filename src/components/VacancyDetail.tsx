@@ -61,7 +61,7 @@ export function VacancyDetail() {
       role="dialog"
       aria-modal
       onClick={close}
-      className="fixed inset-0 z-50 grid place-items-end bg-zinc-900/40 backdrop-blur-sm sm:place-items-center"
+      className="modal-overlay fixed inset-x-0 top-0 z-50 grid place-items-end bg-zinc-900/40 sm:place-items-center"
     >
       <div
         onClick={(e) => e.stopPropagation()}

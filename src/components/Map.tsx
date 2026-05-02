@@ -37,13 +37,20 @@ function FollowOrigin() {
 function FocusSelected({ vacancies }: { vacancies: VacancySummary[] }) {
   const map = useMap()
   const selectedId = useUIStore((s) => s.selectedId)
+  const origin = useUIStore((s) => s.origin)
 
   useEffect(() => {
     if (selectedId === null) return
     const v = vacancies.find((x) => x.id === selectedId)
     if (!v) return
-    map.flyTo([v.lat, v.lon], Math.max(map.getZoom(), 14), { duration: 0.4 })
-  }, [selectedId, vacancies, map])
+
+    if (origin) {
+      const bounds = L.latLngBounds([v.lat, v.lon], [origin.lat, origin.lon])
+      map.flyToBounds(bounds, { padding: [60, 60], maxZoom: 14, duration: 0.6 })
+    } else {
+      map.flyTo([v.lat, v.lon], Math.max(map.getZoom(), 14), { duration: 0.4 })
+    }
+  }, [selectedId, vacancies, map, origin])
 
   return null
 }

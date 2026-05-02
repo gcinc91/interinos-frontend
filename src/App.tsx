@@ -83,7 +83,11 @@ function App() {
       </div>
 
       {/* Bottom tab bar – mobile only */}
-      <nav className="flex h-14 shrink-0 border-t border-zinc-200 bg-white lg:hidden dark:border-zinc-800 dark:bg-zinc-950">
+      <nav
+        className="shrink-0 border-t border-zinc-200 bg-white lg:hidden dark:border-zinc-800 dark:bg-zinc-950"
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      >
+        <div className="flex h-14">
         <button
           type="button"
           onClick={() => setMobileTab("map")}
@@ -115,6 +119,7 @@ function App() {
           </div>
           Lista
         </button>
+        </div>
       </nav>
 
       <VacancyDetail />

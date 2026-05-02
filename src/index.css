@@ -30,6 +30,16 @@ html.dark body {
   color: #fafafa;
 }
 
+/* Overlay de modal: en móvil no tapa la barra de navegación inferior */
+.modal-overlay {
+  bottom: calc(3.5rem + env(safe-area-inset-bottom));
+}
+@media (min-width: 640px) {
+  .modal-overlay {
+    bottom: 0;
+  }
+}
+
 /* Microinteracciones globales */
 button,
 input,
