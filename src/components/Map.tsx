@@ -5,6 +5,7 @@ import {
   Circle,
   MapContainer,
   Marker,
+  Polyline,
   Popup,
   TileLayer,
   useMap,
@@ -12,9 +13,10 @@ import {
 } from "react-leaflet"
 import MarkerClusterGroup from "react-leaflet-cluster"
 
+import { useRoute } from "@/hooks/useRoute"
 import { useVacancies } from "@/hooks/useVacancies"
 import "@/lib/leaflet-icons"
-import { makeVacancyIcon } from "@/lib/leaflet-icons"
+import { makeVacancyIcon, originIcon } from "@/lib/leaflet-icons"
 import { ANDALUSIA_BOUNDS, ANDALUSIA_CENTER, useUIStore } from "@/store/uiStore"
 import type { VacancySummary } from "@/types/api"
 
@@ -53,6 +55,40 @@ function FocusSelected({ vacancies }: { vacancies: VacancySummary[] }) {
   }, [selectedId, vacancies, map, origin])
 
   return null
+}
+
+function RouteLayer({ vacancies }: { vacancies: VacancySummary[] }) {
+  const origin = useUIStore((s) => s.origin)
+  const selectedId = useUIStore((s) => s.selectedId)
+  const vacancy = selectedId !== null ? (vacancies.find((v) => v.id === selectedId) ?? null) : null
+
+  const { data: route } = useRoute(
+    origin ? { lat: origin.lat, lon: origin.lon } : null,
+    vacancy ? { lat: vacancy.lat, lon: vacancy.lon } : null
+  )
+
+  if (!route || !origin || !vacancy) return null
+
+  const positions: [number, number][] = route.coordinates.map(([lon, lat]) => [lat, lon])
+  const distanceKm = (route.distance_m / 1000).toFixed(1)
+  const midPoint = positions[Math.floor(positions.length / 2)]
+
+  const labelIcon = L.divIcon({
+    className: "",
+    html: `<div style="display:inline-block;transform:translate(-50%,-140%);background:white;border:2px solid #2563eb;color:#1d4ed8;font-size:13px;font-weight:700;padding:3px 10px;border-radius:9999px;box-shadow:0 2px 8px rgba(0,0,0,0.25);white-space:nowrap;pointer-events:none">${distanceKm} km</div>`,
+    iconSize: [0, 0],
+    iconAnchor: [0, 0],
+  })
+
+  return (
+    <>
+      <Polyline
+        positions={positions}
+        pathOptions={{ color: "#2563eb", weight: 5, opacity: 0.9, dashArray: "10 6" }}
+      />
+      <Marker position={midPoint} icon={labelIcon} interactive={false} />
+    </>
+  )
 }
 
 function BoundsTracker() {
@@ -133,10 +169,11 @@ export function MapView() {
       <BoundsTracker />
       <FollowOrigin />
       <FocusSelected vacancies={vacancies} />
+      <RouteLayer vacancies={vacancies} />
 
       {origin && (
         <>
-          <Marker position={[origin.lat, origin.lon]} />
+          <Marker position={[origin.lat, origin.lon]} icon={originIcon} />
           <Circle
             center={[origin.lat, origin.lon]}
             radius={radiusKm * 1000}

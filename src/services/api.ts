@@ -103,4 +103,27 @@ export async function fetchDistances(
   })
 }
 
+export interface OSRMRoute {
+  coordinates: [number, number][] // [lon, lat] GeoJSON order
+  distance_m: number
+  duration_s: number
+}
+
+export async function fetchRoute(
+  from: { lat: number; lon: number },
+  to: { lat: number; lon: number }
+): Promise<OSRMRoute | null> {
+  const url = `https://router.project-osrm.org/route/v1/driving/${from.lon},${from.lat};${to.lon},${to.lat}?overview=full&geometries=geojson`
+  const res = await fetch(url)
+  if (!res.ok) return null
+  const data = await res.json()
+  if (data.code !== "Ok" || !data.routes?.[0]) return null
+  const route = data.routes[0]
+  return {
+    coordinates: route.geometry.coordinates as [number, number][],
+    distance_m: route.distance as number,
+    duration_s: route.duration as number,
+  }
+}
+
 export { ApiError, BASE_URL }
