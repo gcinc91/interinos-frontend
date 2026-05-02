@@ -27,7 +27,6 @@ export interface UIState {
   selectedId: number | null
   mapBounds: { minLon: number; minLat: number; maxLon: number; maxLat: number } | null
   theme: ThemePreference
-  sidebarOpen: boolean
 
   setOrigin: (origin: Origin | null) => void
   setRadiusKm: (radius: number) => void
@@ -37,7 +36,6 @@ export interface UIState {
   setSelectedId: (id: number | null) => void
   setMapBounds: (bounds: UIState["mapBounds"]) => void
   setTheme: (theme: ThemePreference) => void
-  setSidebarOpen: (open: boolean) => void
 }
 
 const EMPTY_FILTERS: Filters = {
@@ -58,7 +56,6 @@ export const useUIStore = create<UIState>()(
       selectedId: null,
       mapBounds: null,
       theme: "system",
-      sidebarOpen: false,
       setOrigin: (origin) => set({ origin }),
       setRadiusKm: (radius) => set({ radiusKm: radius }),
       setFilter: (key, values) =>
@@ -68,7 +65,6 @@ export const useUIStore = create<UIState>()(
       setSelectedId: (id) => set({ selectedId: id }),
       setMapBounds: (bounds) => set({ mapBounds: bounds }),
       setTheme: (theme) => set({ theme }),
-      setSidebarOpen: (open) => set({ sidebarOpen: open }),
     }),
     {
       name: "interinos-ui",

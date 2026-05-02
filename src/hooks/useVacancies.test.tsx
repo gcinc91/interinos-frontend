@@ -36,7 +36,6 @@ beforeEach(() => {
     selectedId: null,
     mapBounds: null,
     theme: "system",
-    sidebarOpen: false,
   })
 })
 
